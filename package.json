@@ -1,0 +1,25 @@
+{
+  "name": "unity-in-diversity",
+  "version": "1.0.0",
+  "description": "Unity in Diversity - Assistance Request Platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "ngo",
+    "support",
+    "assistance"
+  ],
+  "author": "Unity in Diversity CIC",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "compression": "^1.7.4",
+    "helmet": "^7.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

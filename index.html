@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unity in Diversity - Assistance Request</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary-amber: #d97706;
+            --primary-amber-dark: #b45309;
+            --primary-amber-light: #f59e0b;
+            --accent-terracotta: #dc2626;
+            --accent-terracotta-dark: #b91c1c;
+            --warm-brown: #92400e;
+            --warm-brown-light: #b45309;
+            --sunset-gold: #fbbf24;
+            --denim-blue: #1e40af;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #fef3c7 0%, #fef5e7 100%);
+        }
+
+        /* Card Styles with Hover Effects */
+        .card {
+            background: white;
+            border: 2px solid #fed7aa;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(217, 119, 6, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(217, 119, 6, 0.15), 0 10px 10px -5px rgba(217, 119, 6, 0.08);
+            border-color: var(--primary-amber-light);
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .rounded-2xl { border-radius: 1rem; }
+
+        .shadow-lg {
+            box-shadow: 0 10px 15px -3px rgba(217, 119, 6, 0.1), 0 4px 6px -2px rgba(217, 119, 6, 0.05);
+        }
+
+        /* Form Input Styles */
+        input, textarea, select {
+            width: 100%;
+            padding: 0.625rem 0.875rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            transition: all 0.15s ease;
+            background: white;
+        }
+
+        input:hover, textarea:hover, select:hover {
+            border-color: #d1d5db;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #b45309;
+            box-shadow: 0 0 0 2px rgba(180, 83, 9, 0.05);
+        }
+
+        /* Button Styles with Gradients */
+        button {
+            padding: 1rem 1.5rem;
+            border-radius: 0.25rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            min-width: 150px;
+            min-height: 55px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Vibrate animation */
+        @keyframes vibrate {
+            0%, 100% { transform: translateY(-2px) translateX(0); }
+            25% { transform: translateY(-2px) translateX(-1px); }
+            50% { transform: translateY(-2px) translateX(1px); }
+            75% { transform: translateY(-2px) translateX(-1px); }
+        }
+
+        .btn-primary {
+            background: rgba(217, 119, 6, 0.15);
+            color: var(--primary-amber-dark);
+            border: 2px solid var(--primary-amber);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 8px -1px rgba(217, 119, 6, 0.2), 0 2px 6px -1px rgba(217, 119, 6, 0.15);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: rgba(217, 119, 6, 0.25);
+            border-color: var(--primary-amber-dark);
+            animation: vibrate 0.3s ease-in-out infinite;
+            box-shadow: 0 12px 20px -4px rgba(217, 119, 6, 0.4), 0 6px 10px -2px rgba(217, 119, 6, 0.3);
+        }
+
+        .btn-primary:active:not(:disabled) {
+            transform: translateY(0);
+            animation: none;
+            background: rgba(217, 119, 6, 0.35);
+        }
+
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.5);
+            color: var(--primary-amber-dark);
+            border: 2px solid var(--primary-amber-light);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 3px 6px -1px rgba(217, 119, 6, 0.15);
+        }
+
+        .btn-outline:hover:not(:disabled) {
+            background: rgba(217, 119, 6, 0.1);
+            border-color: var(--primary-amber);
+            animation: vibrate 0.3s ease-in-out infinite;
+            box-shadow: 0 10px 16px -3px rgba(217, 119, 6, 0.25);
+        }
+
+        .btn-outline:active:not(:disabled) {
+            transform: translateY(0);
+            animation: none;
+            background: rgba(217, 119, 6, 0.2);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 0.625rem;
+            background: linear-gradient(90deg, #fde68a 0%, #fed7aa 100%);
+            border-radius: 9999px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-amber) 0%, var(--sunset-gold) 50%, var(--primary-amber-light) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(217, 119, 6, 0.4);
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Checkbox and Radio */
+        .checkbox, .radio {
+            width: 1.125rem;
+            height: 1.125rem;
+            cursor: pointer;
+            accent-color: #9ca3af;
+            transition: none;
+        }
+
+        .checkbox:hover, .radio:hover {
+            transform: none;
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 0.375rem 0.875rem;
+            background: linear-gradient(135deg, #fbbf24 0%, #fed7aa 100%);
+            border: 1px solid var(--primary-amber-light);
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--primary-amber-dark);
+            box-shadow: 0 2px 4px rgba(217, 119, 6, 0.1);
+            transition: all 0.2s;
+        }
+
+        .badge:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 6px rgba(217, 119, 6, 0.2);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #6b7280;
+        }
+
+        /* Form section specific mild tones */
+        #form h2, #form h3 {
+            color: #374151;
+        }
+
+        #form label {
+            color: #4b5563;
+            font-weight: 500;
+        }
+
+        /* Grid */
+        .grid { display: grid; }
+        .gap-2 { gap: 0.5rem; }
+        .gap-3 { gap: 0.75rem; }
+        .gap-4 { gap: 1rem; }
+        .gap-6 { gap: 1.5rem; }
+        .gap-8 { gap: 2rem; }
+
+        @media (min-width: 640px) {
+            .sm\\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .sm\\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .sm\\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        }
+        @media (min-width: 768px) {
+            .md\\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .md\\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        }
+        @media (min-width: 1024px) {
+            .lg\\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .lg\\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 1rem;
+            border-radius: 0.75rem;
+            border: 2px solid;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .alert-warning { background: #fef3c7; border-color: #fcd34d; color: #92400e; }
+        .alert-error { background: #fee2e2; border-color: #fca5a5; color: #991b1b; }
+        .alert-success { background: #fed7aa; border-color: #6ee7b7; color: #065f46; }
+
+        /* Header Styles */
+        header {
+            background: rgba(255, 255, 255, 1) !important;
+            border-bottom: 2px solid #fde68a !important;
+            box-shadow: 0 4px 6px -1px rgba(217, 119, 6, 0.05);
+        }
+
+        .logo {
+            background: transparent;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: brightness(0) saturate(100%) invert(46%) sepia(76%) saturate(1642%) hue-rotate(8deg) brightness(96%) contrast(98%);
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover img {
+            transform: scale(1.1);
+            filter: brightness(0) saturate(100%) invert(37%) sepia(91%) saturate(1789%) hue-rotate(8deg) brightness(91%) contrast(94%);
+        }
+
+        .footer-logo {
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: brightness(0) saturate(100%) invert(46%) sepia(76%) saturate(1642%) hue-rotate(8deg) brightness(96%) contrast(98%);
+        }
+
+        /* Section Backgrounds */
+        .hero-section {
+            background-image:
+                linear-gradient(135deg, rgba(255, 247, 237, 0.95) 0%, rgba(253, 230, 138, 0.9) 50%, rgba(251, 191, 36, 0.85) 100%),
+                url('men.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 60%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(217, 119, 6, 0.1) 0%, transparent 70%);
+            animation: float 20s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .features-section {
+            background: white;
+            position: relative;
+        }
+
+        .form-section {
+            background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%);
+        }
+
+        /* Interactive Checkbox/Radio Labels */
+        .interactive-label {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .interactive-label:hover {
+            background: #fafafa !important;
+            border-color: #d1d5db !important;
+        }
+
+        .interactive-label:active {
+            transform: none;
+        }
+
+        /* Heading Colors */
+        h1, h2, h3 {
+            color: var(--primary-amber-dark);
+        }
+
+        /* Link Styles */
+        a {
+            transition: all 0.2s ease;
+        }
+
+        a:hover {
+            opacity: 0.8;
+        }
+
+        .btn-primary a {
+            color: var(--primary-amber-dark);
+            text-decoration: none;
+        }
+
+        .btn-primary:hover a {
+            color: var(--primary-amber-dark);
+        }
+
+        /* Success Checkmark Animation */
+        @keyframes checkmark {
+            0% { transform: scale(0) rotate(-45deg); }
+            50% { transform: scale(1.2) rotate(0deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        .success-icon {
+            animation: checkmark 0.5s ease-out;
+        }
+
+        /* Triage Preview Card */
+        .triage-card {
+            background: linear-gradient(135deg, #ffffff 0%, #fff7ed 100%);
+            border: 2px solid var(--primary-amber-light);
+            box-shadow: 0 8px 16px -4px rgba(217, 119, 6, 0.2);
+        }
+
+        /* Form Card Enhancement */
+        .form-card-main {
+            background: white;
+            border: 3px solid #fde68a;
+            box-shadow: 0 20px 40px -10px rgba(217, 119, 6, 0.15);
+        }
+
+        /* Hero Image Styles */
+        .hero-image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 40px -10px rgba(217, 119, 6, 0.3);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero-image-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(217, 119, 6, 0.05) 0%, rgba(5, 150, 105, 0.03) 100%);
+            z-index: 1;
+            transition: opacity 0.3s;
+        }
+
+        .hero-image-container:hover::before {
+            opacity: 0.15;
+        }
+
+        .hero-image-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 30px 60px -15px rgba(217, 119, 6, 0.4);
+        }
+
+        .hero-image-container::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+            opacity: 0;
+        }
+
+        .hero-image-container:hover::after {
+            animation: shine 1.5s ease-in-out;
+        }
+
+        @keyframes shine {
+            0% {
+                left: -50%;
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                left: 150%;
+                opacity: 0;
+            }
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .hero-image-container:hover .hero-image {
+            transform: scale(1.05);
+        }
+
+        .image-overlay-badge {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 1.5rem;
+            background: rgba(255, 255, 255, 1);
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.75rem;
+            z-index: 2;
+            box-shadow: 0 8px 16px -4px rgba(217, 119, 6, 0.3);
+            border: 2px solid var(--primary-amber-light);
+        }
+
+        .image-overlay-badge p {
+            margin: 0;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--primary-amber-dark);
+        }
+
+        /* Footer Styles */
+        footer a:hover {
+            opacity: 1 !important;
+        }
+
+        .gen3block-badge {
+            transition: all 0.3s ease;
+        }
+
+        .gen3block-badge:hover {
+            transform: scale(1.08) translateY(-2px);
+            box-shadow: 0 8px 16px rgba(217, 119, 6, 0.4) !important;
+        }
+
+        .gen3block-badge svg {
+            transition: transform 0.3s ease;
+        }
+
+        .gen3block-badge:hover svg {
+            transform: rotate(360deg);
+        }
+
+        /* Footer Link Hover Effects */
+        footer a:not(.gen3block-badge) {
+            position: relative;
+            text-decoration: none;
+        }
+
+        footer a:not(.gen3block-badge)::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-amber);
+            transition: width 0.3s ease;
+        }
+
+        footer a:not(.gen3block-badge):hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useMemo, useEffect } = React;
+
+        // Constants
+        const API_ENDPOINT = "/api/intake";
+        const MAX_TEXT_LENGTH = 5000;
+        const MAX_NAME_LENGTH = 100;
+
+        const CONCERNS = [
+            { key: "employment", label: "Employment & Skills", description: "Job search, CV, workplace issues" },
+            { key: "relationships", label: "Relationships & Family", description: "Separation, conflict, parenting" },
+            { key: "emotional", label: "Emotional Wellbeing", description: "Anxiety, low mood, loneliness" },
+            { key: "finance", label: "Money & Debt", description: "Benefits, budgeting, debt advice" },
+            { key: "housing", label: "Housing", description: "Insecurity, eviction risk, homelessness" },
+            { key: "legal", label: "Legal", description: "Rights at work, family, immigration" },
+            { key: "addiction", label: "Addiction", description: "Alcohol, drugs, gambling" },
+            { key: "health", label: "Physical Health", description: "Long-term conditions, access to GP" },
+            { key: "abuse", label: "Abuse & Safety", description: "Domestic abuse, coercive control" },
+            { key: "social", label: "Social Connection", description: "Isolation, building community" },
+        ];
+
+        // Validators
+        const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i;
+        const ukPhoneRe = /^(\+44\s?7\d{3}|07\d{3})\s?\d{3}\s?\d{3}$|^(\+44\s?1\d{3}|01\d{3}|\+44\s?2\d{2}|02\d{2})\s?\d{3,4}\s?\d{3,4}$/;
+        const postcodeRe = /^[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2}$/i;
+
+        function validateStep(step, data) {
+            const errors = {};
+
+            if (step === 1) {
+                if (!data.firstName?.trim()) errors.firstName = "First name is required";
+                else if (data.firstName.length > MAX_NAME_LENGTH) errors.firstName = `First name must be less than ${MAX_NAME_LENGTH} characters`;
+
+                if (!data.lastName?.trim()) errors.lastName = "Last name is required";
+                else if (data.lastName.length > MAX_NAME_LENGTH) errors.lastName = `Last name must be less than ${MAX_NAME_LENGTH} characters`;
+
+                if (!data.email?.trim() || !emailRe.test(data.email)) errors.email = "Enter a valid email address";
+                if (data.phone && !ukPhoneRe.test(data.phone)) errors.phone = "Enter a valid UK phone number";
+                if (data.postcode && !postcodeRe.test(data.postcode)) errors.postcode = "Enter a valid UK postcode (e.g., SW1A 1AA)";
+            }
+
+            if (step === 2) {
+                if (!data.employmentStatus) errors.employmentStatus = "Select your current employment status";
+                if (!data.relationshipStatus) errors.relationshipStatus = "Select your current relationship status";
+                if (!data.housing) errors.housing = "Select your housing situation";
+            }
+
+            if (step === 3) {
+                if (!data.concerns || data.concerns.length === 0) errors.concerns = "Pick at least one area you want help with";
+                if (!data.severity) errors.severity = "How urgent/severe does this feel right now?";
+                if (data.concernDetails && data.concernDetails.length > MAX_TEXT_LENGTH) {
+                    errors.concernDetails = `Details must be less than ${MAX_TEXT_LENGTH} characters`;
+                }
+            }
+
+            if (step === 4) {
+                if (!data.preferredContact) errors.preferredContact = "Choose how we should contact you";
+            }
+
+            if (step === 5) {
+                if (!data.consent?.privacyPolicyAccepted) errors.privacy = "You must accept the Privacy Policy to continue";
+                if (!data.consent?.crisisProtocolOk && (data.severity === "high" || data.severity === "crisis")) {
+                    errors.crisis = "Please acknowledge the crisis protocol";
+                }
+            }
+
+            return errors;
+        }
+
+        function computeClassification(data) {
+            let riskScore = 0;
+
+            if (data.severity === "moderate") riskScore += 2;
+            if (data.severity === "high") riskScore += 4;
+            if (data.severity === "crisis") riskScore += 6;
+
+            if (data.riskFlags?.selfHarm) riskScore += 6;
+            if (data.riskFlags?.domesticAbuse) riskScore += 6;
+            if (data.riskFlags?.harmToOthers) riskScore += 4;
+            if (data.riskFlags?.substanceRisk) riskScore += 3;
+
+            if (data.housing === "homeless" || data.housing === "atRisk") riskScore += 3;
+            if (data.employmentStatus === "unemployed" || data.employmentStatus === "unableToWork") riskScore += 2;
+
+            const buckets = [];
+            const c = new Set(data.concerns || []);
+
+            if (c.has("abuse")) buckets.push("Safety/Crisis");
+            if (c.has("emotional") || c.has("addiction")) buckets.push("Mental Health & Addiction");
+            if (c.has("employment")) buckets.push("Employment & Skills");
+            if (c.has("finance")) buckets.push("Money/Debt Advice");
+            if (c.has("housing")) buckets.push("Housing Support");
+            if (c.has("relationships")) buckets.push("Family/Relationship Support");
+            if (c.has("health")) buckets.push("Physical Health Navigation");
+            if (c.has("social")) buckets.push("Connection/Peer Support");
+
+            let priority = "Low";
+            if (riskScore >= 12) priority = "Immediate";
+            else if (riskScore >= 8) priority = "High";
+            else if (riskScore >= 4) priority = "Medium";
+
+            return { riskScore, buckets, priority };
+        }
+
+        function ModernIntakePage() {
+            const [step, setStep] = useState(1);
+            const [submissionStatus, setSubmissionStatus] = useState("idle");
+            const [errors, setErrors] = useState({});
+            const [submitError, setSubmitError] = useState("");
+            const [data, setData] = useState({
+                firstName: "",
+                lastName: "",
+                email: "",
+                phone: "",
+                postcode: "",
+                pronouns: "",
+                ageBand: "",
+                employmentStatus: "",
+                relationshipStatus: "",
+                housing: "",
+                dependents: "none",
+                concerns: [],
+                concernDetails: "",
+                severity: "",
+                riskFlags: { selfHarm: false, harmToOthers: false, domesticAbuse: false, substanceRisk: false },
+                gpRegistered: false,
+                supportPreferences: [],
+                availability: "",
+                preferredContact: "",
+                consent: {
+                    privacyPolicyAccepted: false,
+                    shareWithPartners: false,
+                    anonymisedInsights: true,
+                    crisisProtocolOk: false
+                },
+                source: "web",
+            });
+
+            const progress = useMemo(() => (step / 5) * 100, [step]);
+            const triage = useMemo(() => computeClassification(data), [data]);
+
+            function next() {
+                const e = validateStep(step, data);
+                setErrors(e);
+                if (Object.keys(e).length === 0) {
+                    setStep(s => Math.min(5, s + 1));
+                }
+            }
+
+            function prev() {
+                setStep(s => Math.max(1, s - 1));
+                setErrors({});
+            }
+
+            async function handleSubmit(e) {
+                e.preventDefault();
+                const e2 = validateStep(5, data);
+                setErrors(e2);
+                if (Object.keys(e2).length > 0) return;
+
+                setSubmissionStatus("submitting");
+                setSubmitError("");
+
+                // Simulate submission (replace with actual API call)
+                setTimeout(() => {
+                    console.log("Submitted data:", { ...data, triage });
+                    setSubmissionStatus("success");
+                }, 1500);
+            }
+
+            function toggleArrayField(field, value) {
+                setData(prev => {
+                    const arr = new Set(prev[field] || []);
+                    arr.has(value) ? arr.delete(value) : arr.add(value);
+                    return { ...prev, [field]: Array.from(arr) };
+                });
+            }
+
+            useEffect(() => {
+                if (Object.keys(errors).length > 0) {
+                    const el = document.getElementById("error-summary");
+                    el?.focus();
+                }
+            }, [errors]);
+
+            if (submissionStatus === "success") {
+                return (
+                    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+                        <div className="card rounded-2xl shadow-lg max-w-2xl w-full p-8">
+                            <h2 className="text-2xl font-bold mb-4">✓ Request Received</h2>
+                            <p className="text-gray-600 mb-4">
+                                Thank you for reaching out. Your request has been securely received.
+                                We'll be in touch within 2 working days using your preferred contact method.
+                            </p>
+                            <p className="text-sm text-gray-500 mb-6">
+                                If your situation becomes urgent, please call 999 or contact your local NHS urgent helpline.
+                            </p>
+                            <button onClick={() => window.location.reload()} className="btn-primary rounded-2xl">
+                                Submit Another Request
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="min-h-screen bg-white">
+                    {/* Header */}
+                    <header className="sticky top-0 z-40 bg-white border-b">
+                        <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+                            <a href="#" className="flex items-center gap-2">
+                                <div className="logo" style={{ width: '50px', height: '36px' }}>
+                                    <img src="uid_logo.png" alt="Unity in Diversity Logo" />
+                                </div>
+                                <span className="font-semibold" style={{ color: 'var(--primary-amber-dark)' }}>Unity in Diversity</span>
+                            </a>
+                            <button className="btn-primary rounded-2xl">
+                                <a href="#form">Request assistance</a>
+                            </button>
+                        </div>
+                    </header>
+
+                    {/* Hero */}
+                    <section className="hero-section">
+                        <div className="mx-auto max-w-6xl px-4 py-12">
+                            <div className="grid md:grid-cols-2 gap-8 items-center">
+                                <div>
+                                    <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight">
+                                        Strength through connection. Growth through support.
+                                    </h1>
+                                    <p className="mt-4 text-gray-600 text-lg">
+                                        Confidential, practical help for men across employment, relationships, and emotional wellbeing —
+                                        plus housing, money, and legal signposting.
+                                    </p>
+                                    <div className="mt-6 flex gap-3">
+                                        <button className="btn-primary rounded-2xl">
+                                            <a href="#form">I need help</a>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="space-y-4">
+                                    {/* Hero Image - Diverse group of men */}
+                                    <div className="hero-image-container" style={{ minHeight: '450px' }}>
+                                        <img
+                                            src="men.png"
+                                            alt="Diverse group of men from different backgrounds smiling together, representing unity and community support"
+                                            className="hero-image"
+                                        />
+                                        <div className="image-overlay-badge">
+                                            <p>Supporting men from all backgrounds</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Features */}
+                    <section className="bg-white">
+                        <div className="mx-auto max-w-6xl px-4 py-12">
+                            <h2 className="text-2xl md:text-3xl font-bold">What we help with</h2>
+                            <p className="text-gray-600 mt-2">
+                                From a quick chat to ongoing support — we'll match you to the right option.
+                            </p>
+                            <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                {CONCERNS.map((c) => (
+                                    <div key={c.key} className="card rounded-2xl p-4">
+                                        <h3 className="font-bold text-base mb-1">{c.label}</h3>
+                                        <p className="text-sm text-gray-600">{c.description}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Form */}
+                    <section id="form" className="bg-gray-50">
+                        <div className="mx-auto max-w-5xl px-4 py-12">
+                            <div className="card rounded-2xl shadow-lg p-8">
+                                <h2 className="text-2xl font-bold mb-2">Assistance required</h2>
+                                <p className="text-gray-600 mb-6">
+                                    Tell us a bit about you so we can connect you to the right support.
+                                </p>
+
+                                {/* Error Summary */}
+                                {Object.keys(errors).length > 0 && (
+                                    <div id="error-summary" tabIndex={-1} className="alert alert-error mb-6">
+                                        <p className="font-medium mb-2">Please check the form:</p>
+                                        <ul className="list-disc ml-5 text-sm">
+                                            {Object.values(errors).map((msg, i) => (
+                                                <li key={i}>{msg}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+
+                                {/* Progress */}
+                                <div className="mb-6">
+                                    <div className="progress-bar">
+                                        <div className="progress-fill" style={{ width: `${progress}%` }}></div>
+                                    </div>
+                                    <p className="mt-2 text-xs text-gray-500">Step {step} of 5</p>
+                                </div>
+
+                                <form onSubmit={handleSubmit}>
+                                    {/* Step 1: Identity */}
+                                    {step === 1 && (
+                                        <div className="grid gap-4">
+                                            <div className="grid sm:grid-cols-2 gap-4">
+                                                <div>
+                                                    <label htmlFor="firstName">First name *</label>
+                                                    <input
+                                                        id="firstName"
+                                                        value={data.firstName}
+                                                        onChange={(e) => setData({ ...data, firstName: e.target.value })}
+                                                        maxLength={MAX_NAME_LENGTH}
+                                                    />
+                                                    {errors.firstName && <p className="text-sm text-red-700 mt-1">{errors.firstName}</p>}
+                                                </div>
+                                                <div>
+                                                    <label htmlFor="lastName">Last name *</label>
+                                                    <input
+                                                        id="lastName"
+                                                        value={data.lastName}
+                                                        onChange={(e) => setData({ ...data, lastName: e.target.value })}
+                                                        maxLength={MAX_NAME_LENGTH}
+                                                    />
+                                                    {errors.lastName && <p className="text-sm text-red-700 mt-1">{errors.lastName}</p>}
+                                                </div>
+                                            </div>
+                                            <div className="grid sm:grid-cols-2 gap-4">
+                                                <div>
+                                                    <label htmlFor="email">Email *</label>
+                                                    <input
+                                                        id="email"
+                                                        type="email"
+                                                        value={data.email}
+                                                        onChange={(e) => setData({ ...data, email: e.target.value })}
+                                                    />
+                                                    {errors.email && <p className="text-sm text-red-700 mt-1">{errors.email}</p>}
+                                                </div>
+                                                <div>
+                                                    <label htmlFor="phone">Phone (UK)</label>
+                                                    <input
+                                                        id="phone"
+                                                        placeholder="07..."
+                                                        value={data.phone}
+                                                        onChange={(e) => setData({ ...data, phone: e.target.value })}
+                                                    />
+                                                    {errors.phone && <p className="text-sm text-red-700 mt-1">{errors.phone}</p>}
+                                                </div>
+                                            </div>
+                                            <div className="grid sm:grid-cols-3 gap-4">
+                                                <div>
+                                                    <label htmlFor="postcode">Postcode</label>
+                                                    <input
+                                                        id="postcode"
+                                                        placeholder="e.g., NN1 1AA"
+                                                        value={data.postcode}
+                                                        onChange={(e) => setData({ ...data, postcode: e.target.value })}
+                                                    />
+                                                    {errors.postcode && <p className="text-sm text-red-700 mt-1">{errors.postcode}</p>}
+                                                </div>
+                                                <div>
+                                                    <label htmlFor="pronouns">Pronouns</label>
+                                                    <input
+                                                        id="pronouns"
+                                                        placeholder="e.g., he/him"
+                                                        value={data.pronouns}
+                                                        onChange={(e) => setData({ ...data, pronouns: e.target.value })}
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label htmlFor="ageBand">Age band</label>
+                                                    <select
+                                                        id="ageBand"
+                                                        value={data.ageBand}
+                                                        onChange={(e) => setData({ ...data, ageBand: e.target.value })}
+                                                    >
+                                                        <option value="">Select</option>
+                                                        <option value="under18">Under 18</option>
+                                                        <option value="18to24">18–24</option>
+                                                        <option value="25to34">25–34</option>
+                                                        <option value="35to44">35–44</option>
+                                                        <option value="45to54">45–54</option>
+                                                        <option value="55to64">55–64</option>
+                                                        <option value="65plus">65+</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Step 2: Background */}
+                                    {step === 2 && (
+                                        <div className="grid gap-4">
+                                            <div className="grid sm:grid-cols-2 gap-4">
+                                                <div>
+                                                    <label htmlFor="employmentStatus">Employment status *</label>
+                                                    <select
+                                                        id="employmentStatus"
+                                                        value={data.employmentStatus}
+                                                        onChange={(e) => setData({ ...data, employmentStatus: e.target.value })}
+                                                    >
+                                                        <option value="">Select</option>
+                                                        <option value="employed">Employed</option>
+                                                        <option value="selfEmployed">Self-employed</option>
+                                                        <option value="unemployed">Unemployed</option>
+                                                        <option value="student">Student</option>
+                                                        <option value="carer">Carer</option>
+                                                        <option value="retired">Retired</option>
+                                                        <option value="unableToWork">Unable to work</option>
+                                                    </select>
+                                                    {errors.employmentStatus && <p className="text-sm text-red-700 mt-1">{errors.employmentStatus}</p>}
+                                                </div>
+                                                <div>
+                                                    <label htmlFor="relationshipStatus">Relationship status *</label>
+                                                    <select
+                                                        id="relationshipStatus"
+                                                        value={data.relationshipStatus}
+                                                        onChange={(e) => setData({ ...data, relationshipStatus: e.target.value })}
+                                                    >
+                                                        <option value="">Select</option>
+                                                        <option value="single">Single</option>
+                                                        <option value="inRelationship">In a relationship</option>
+                                                        <option value="marriedCivil">Married / Civil partnership</option>
+                                                        <option value="separated">Separated</option>
+                                                        <option value="divorced">Divorced</option>
+                                                        <option value="widowed">Widowed</option>
+                                                    </select>
+                                                    {errors.relationshipStatus && <p className="text-sm text-red-700 mt-1">{errors.relationshipStatus}</p>}
+                                                </div>
+                                            </div>
+                                            <div className="grid sm:grid-cols-3 gap-4">
+                                                <div>
+                                                    <label htmlFor="housing">Housing *</label>
+                                                    <select
+                                                        id="housing"
+                                                        value={data.housing}
+                                                        onChange={(e) => setData({ ...data, housing: e.target.value })}
+                                                    >
+                                                        <option value="">Select</option>
+                                                        <option value="secure">Secure / stable</option>
+                                                        <option value="temporary">Temporary / short-term</option>
+                                                        <option value="sofaSurfing">Sofa surfing</option>
+                                                        <option value="atRisk">At risk of homelessness</option>
+                                                        <option value="homeless">Currently homeless</option>
+                                                    </select>
+                                                    {errors.housing && <p className="text-sm text-red-700 mt-1">{errors.housing}</p>}
+                                                </div>
+                                                <div>
+                                                    <label htmlFor="dependents">Dependents</label>
+                                                    <select
+                                                        id="dependents"
+                                                        value={data.dependents}
+                                                        onChange={(e) => setData({ ...data, dependents: e.target.value })}
+                                                    >
+                                                        <option value="none">None</option>
+                                                        <option value="children">Children</option>
+                                                        <option value="adultDependents">Adult dependents</option>
+                                                        <option value="both">Both</option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label>
+                                                        <input
+                                                            type="checkbox"
+                                                            className="checkbox"
+                                                            checked={data.gpRegistered}
+                                                            onChange={(e) => setData({ ...data, gpRegistered: e.target.checked })}
+                                                        />
+                                                        {' '}Registered with a GP?
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Step 3: Concerns */}
+                                    {step === 3 && (
+                                        <div className="grid gap-4">
+                                            <div>
+                                                <label>What do you need help with? *</label>
+                                                <div className="mt-3 grid sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                                                    {CONCERNS.map((c) => (
+                                                        <label key={c.key} className="interactive-label flex items-start gap-2 rounded-xl border p-3 bg-white">
+                                                            <input
+                                                                type="checkbox"
+                                                                className="checkbox"
+                                                                checked={data.concerns.includes(c.key)}
+                                                                onChange={() => toggleArrayField("concerns", c.key)}
+                                                            />
+                                                            <div>
+                                                                <p className="font-medium text-sm">{c.label}</p>
+                                                                <p className="text-xs text-gray-600">{c.description}</p>
+                                                            </div>
+                                                        </label>
+                                                    ))}
+                                                </div>
+                                                {errors.concerns && <p className="text-sm text-red-700 mt-2">{errors.concerns}</p>}
+                                            </div>
+
+                                            <div>
+                                                <label htmlFor="concernDetails">Tell us what's going on (optional)</label>
+                                                <textarea
+                                                    id="concernDetails"
+                                                    value={data.concernDetails}
+                                                    onChange={(e) => setData({ ...data, concernDetails: e.target.value })}
+                                                    placeholder="Share any context you feel comfortable with..."
+                                                    maxLength={MAX_TEXT_LENGTH}
+                                                    rows={4}
+                                                />
+                                                <p className="text-xs text-gray-500 mt-1">
+                                                    {data.concernDetails?.length || 0} / {MAX_TEXT_LENGTH}
+                                                </p>
+                                            </div>
+
+                                            <div>
+                                                <label>How urgent/severe does this feel right now? *</label>
+                                                <div className="mt-2 grid sm:grid-cols-4 gap-2">
+                                                    {[
+                                                        { key: "low", label: "Low" },
+                                                        { key: "moderate", label: "Moderate" },
+                                                        { key: "high", label: "High" },
+                                                        { key: "crisis", label: "Crisis" },
+                                                    ].map((o) => (
+                                                        <label key={o.key} className="interactive-label flex items-center gap-2 rounded-xl border p-3 bg-white">
+                                                            <input
+                                                                type="radio"
+                                                                className="radio"
+                                                                name="severity"
+                                                                value={o.key}
+                                                                checked={data.severity === o.key}
+                                                                onChange={(e) => setData({ ...data, severity: e.target.value })}
+                                                            />
+                                                            <span>{o.label}</span>
+                                                        </label>
+                                                    ))}
+                                                </div>
+                                                {errors.severity && <p className="text-sm text-red-700 mt-2">{errors.severity}</p>}
+                                            </div>
+
+                                            <div>
+                                                <label>Any risks we should be aware of?</label>
+                                                <div className="mt-2 grid sm:grid-cols-2 lg:grid-cols-4 gap-2">
+                                                    <label className="interactive-label flex items-center gap-2 rounded-xl border p-3 bg-white">
+                                                        <input
+                                                            type="checkbox"
+                                                            className="checkbox"
+                                                            checked={data.riskFlags.selfHarm}
+                                                            onChange={(e) => setData({
+                                                                ...data,
+                                                                riskFlags: { ...data.riskFlags, selfHarm: e.target.checked }
+                                                            })}
+                                                        />
+                                                        <span className="text-sm">Thoughts of self-harm</span>
+                                                    </label>
+                                                    <label className="interactive-label flex items-center gap-2 rounded-xl border p-3 bg-white">
+                                                        <input
+                                                            type="checkbox"
+                                                            className="checkbox"
+                                                            checked={data.riskFlags.harmToOthers}
+                                                            onChange={(e) => setData({
+                                                                ...data,
+                                                                riskFlags: { ...data.riskFlags, harmToOthers: e.target.checked }
+                                                            })}
+                                                        />
+                                                        <span className="text-sm">Risk of harm to others</span>
+                                                    </label>
+                                                    <label className="flex items-center gap-2 rounded-xl border p-3 bg-white cursor-pointer hover:bg-gray-50">
+                                                        <input
+                                                            type="checkbox"
+                                                            className="checkbox"
+                                                            checked={data.riskFlags.domesticAbuse}
+                                                            onChange={(e) => setData({
+                                                                ...data,
+                                                                riskFlags: { ...data.riskFlags, domesticAbuse: e.target.checked }
+                                                            })}
+                                                        />
+                                                        <span className="text-sm">Domestic abuse / unsafe at home</span>
+                                                    </label>
+                                                    <label className="flex items-center gap-2 rounded-xl border p-3 bg-white cursor-pointer hover:bg-gray-50">
+                                                        <input
+                                                            type="checkbox"
+                                                            className="checkbox"
+                                                            checked={data.riskFlags.substanceRisk}
+                                                            onChange={(e) => setData({
+                                                                ...data,
+                                                                riskFlags: { ...data.riskFlags, substanceRisk: e.target.checked }
+                                                            })}
+                                                        />
+                                                        <span className="text-sm">Substance-related risk</span>
+                                                    </label>
+                                                </div>
+                                                {(data.riskFlags.selfHarm || data.riskFlags.domesticAbuse) && (
+                                                    <div className="alert alert-warning mt-3">
+                                                        ⚠ If you're in immediate danger, call <strong>999</strong> or go to A&E.
+                                                        For urgent mental health help, contact your local NHS urgent helpline.
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Step 4: Preferences */}
+                                    {step === 4 && (
+                                        <div className="grid gap-4">
+                                            <div>
+                                                <label>How would you like to receive support?</label>
+                                                <div className="mt-2 grid sm:grid-cols-3 gap-2">
+                                                    {[
+                                                        { key: "oneToOne", label: "1:1 sessions" },
+                                                        { key: "group", label: "Group support" },
+                                                        { key: "peer", label: "Peer-led" },
+                                                        { key: "online", label: "Online" },
+                                                        { key: "phone", label: "Phone" },
+                                                        { key: "inPerson", label: "In person" },
+                                                    ].map((o) => (
+                                                        <label key={o.key} className="flex items-center gap-2 rounded-xl border p-3 bg-white cursor-pointer hover:bg-gray-50">
+                                                            <input
+                                                                type="checkbox"
+                                                                className="checkbox"
+                                                                checked={data.supportPreferences.includes(o.key)}
+                                                                onChange={() => toggleArrayField("supportPreferences", o.key)}
+                                                            />
+                                                            <span>{o.label}</span>
+                                                        </label>
+                                                    ))}
+                                                </div>
+                                            </div>
+
+                                            <div className="grid sm:grid-cols-2 gap-4">
+                                                <div>
+                                                    <label htmlFor="availability">When are you generally available?</label>
+                                                    <input
+                                                        id="availability"
+                                                        placeholder="e.g., weekday evenings, weekends"
+                                                        value={data.availability}
+                                                        onChange={(e) => setData({ ...data, availability: e.target.value })}
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label>Preferred contact *</label>
+                                                    <div className="mt-2 flex gap-4">
+                                                        {[
+                                                            { key: "email", label: "Email" },
+                                                            { key: "phone", label: "Phone" },
+                                                            { key: "sms", label: "SMS" },
+                                                        ].map((o) => (
+                                                            <label key={o.key} className="flex items-center gap-2">
+                                                                <input
+                                                                    type="radio"
+                                                                    className="radio"
+                                                                    name="preferredContact"
+                                                                    value={o.key}
+                                                                    checked={data.preferredContact === o.key}
+                                                                    onChange={(e) => setData({ ...data, preferredContact: e.target.value })}
+                                                                />
+                                                                <span>{o.label}</span>
+                                                            </label>
+                                                        ))}
+                                                    </div>
+                                                    {errors.preferredContact && <p className="text-sm text-red-700 mt-2">{errors.preferredContact}</p>}
+                                                </div>
+                                            </div>
+
+                                            {/* Live triage preview */}
+                                            <div className="rounded-2xl border bg-white p-4">
+                                                <p className="text-sm text-gray-500">Live triage preview</p>
+                                                <div className="mt-2 flex flex-wrap gap-2">
+                                                    {triage.buckets.map((b) => (
+                                                        <span key={b} className="badge">{b}</span>
+                                                    ))}
+                                                </div>
+                                                <div className="mt-3 grid sm:grid-cols-3 gap-3 text-sm">
+                                                    <div className="rounded-xl bg-gray-50 p-3">
+                                                        <span className="text-gray-500">Priority</span>
+                                                        <p className="text-lg font-semibold">{triage.priority}</p>
+                                                    </div>
+                                                    <div className="rounded-xl bg-gray-50 p-3">
+                                                        <span className="text-gray-500">Risk score</span>
+                                                        <p className="text-lg font-semibold">{triage.riskScore}</p>
+                                                    </div>
+                                                    <div className="rounded-xl bg-gray-50 p-3">
+                                                        <span className="text-gray-500">Concerns selected</span>
+                                                        <p className="text-lg font-semibold">{data.concerns.length}</p>
+                                                    </div>
+                                                </div>
+                                                <p className="text-xs text-gray-500 mt-2">
+                                                    Final decisions are made by a trained team member and may differ from this preview.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Step 5: Consent */}
+                                    {step === 5 && (
+                                        <div className="grid gap-4">
+                                            <div className="rounded-2xl border bg-white p-4">
+                                                <h3 className="font-semibold mb-2">Consent & data use</h3>
+                                                <p className="text-sm text-gray-600 mb-3">
+                                                    We use your information to provide support.
+                                                </p>
+                                                <div className="grid gap-2">
+                                                    <label className="flex items-start gap-2 cursor-pointer">
+                                                        <input
+                                                            type="checkbox"
+                                                            className="checkbox"
+                                                            checked={data.consent.privacyPolicyAccepted}
+                                                            onChange={(e) => setData({
+                                                                ...data,
+                                                                consent: { ...data.consent, privacyPolicyAccepted: e.target.checked }
+                                                            })}
+                                                        />
+                                                        <span className="text-sm">I have read and accept the Privacy Policy *</span>
+                                                    </label>
+                                                    <label className="flex items-start gap-2 cursor-pointer">
+                                                        <input
+                                                            type="checkbox"
+                                                            className="checkbox"
+                                                            checked={data.consent.shareWithPartners}
+                                                            onChange={(e) => setData({
+                                                                ...data,
+                                                                consent: { ...data.consent, shareWithPartners: e.target.checked }
+                                                            })}
+                                                        />
+                                                        <span className="text-sm">
+                                                            I agree you may share my details with trusted partners to arrange support (optional)
+                                                        </span>
+                                                    </label>
+                                                    <label className="flex items-start gap-2 cursor-pointer">
+                                                        <input
+                                                            type="checkbox"
+                                                            className="checkbox"
+                                                            checked={data.consent.anonymisedInsights}
+                                                            onChange={(e) => setData({
+                                                                ...data,
+                                                                consent: { ...data.consent, anonymisedInsights: e.target.checked }
+                                                            })}
+                                                        />
+                                                        <span className="text-sm">
+                                                            I consent to anonymised data being used to improve services and report impact (optional)
+                                                        </span>
+                                                    </label>
+                                                    {(data.severity === "high" || data.severity === "crisis") && (
+                                                        <label className="flex items-start gap-2 cursor-pointer">
+                                                            <input
+                                                                type="checkbox"
+                                                                className="checkbox"
+                                                                checked={data.consent.crisisProtocolOk}
+                                                                onChange={(e) => setData({
+                                                                    ...data,
+                                                                    consent: { ...data.consent, crisisProtocolOk: e.target.checked }
+                                                                })}
+                                                            />
+                                                            <span className="text-sm">
+                                                                I understand that if I'm at serious risk, you may contact emergency or safeguarding services *
+                                                            </span>
+                                                        </label>
+                                                    )}
+                                                </div>
+                                                {errors.privacy && <p className="text-sm text-red-700 mt-2">{errors.privacy}</p>}
+                                                {errors.crisis && <p className="text-sm text-red-700 mt-2">{errors.crisis}</p>}
+                                            </div>
+
+                                            <div className="text-sm text-gray-500">
+                                                <p>
+                                                    By submitting, you confirm the details are accurate to the best of your knowledge.
+                                                    You can request deletion or correction at any time.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Navigation buttons */}
+                                    <div className="mt-6 flex items-center justify-between">
+                                        <button
+                                            type="button"
+                                            className="btn-outline"
+                                            onClick={prev}
+                                            disabled={step === 1 || submissionStatus === "submitting"}
+                                        >
+                                            Back
+                                        </button>
+                                        {step < 5 ? (
+                                            <button type="button" onClick={next} className="btn-primary">
+                                                Continue →
+                                            </button>
+                                        ) : (
+                                            <button
+                                                type="submit"
+                                                disabled={submissionStatus === "submitting"}
+                                                className="btn-primary"
+                                            >
+                                                {submissionStatus === "submitting" ? "Submitting..." : "Submit request"}
+                                            </button>
+                                        )}
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Footer */}
+                    <footer className="border-t-2 bg-gradient-to-b from-white to-gray-50" style={{ borderColor: 'var(--primary-amber-light)' }}>
+                        <div className="mx-auto max-w-6xl px-4 py-12">
+                            <div className="grid md:grid-cols-4 gap-8 text-sm">
+                                <div>
+                                    <div className="flex items-center gap-2 mb-3">
+                                        <div className="footer-logo" style={{ width: '45px', height: '32px' }}>
+                                            <img src="uid_logo.png" alt="Unity in Diversity Logo" />
+                                        </div>
+                                        <p className="font-bold text-base" style={{ color: 'var(--primary-amber-dark)' }}>Unity in Diversity</p>
+                                    </div>
+                                    <p className="text-gray-600 leading-relaxed">
+                                        Helping men build healthier lives through practical support and community.
+                                    </p>
+                                </div>
+                                <div>
+                                    <p className="font-bold mb-3" style={{ color: 'var(--primary-amber-dark)' }}>Contact</p>
+                                    <div className="space-y-2 text-gray-600">
+                                        <p className="flex items-center gap-2">
+                                            <span>📧</span>
+                                            <a href="mailto:info@theuid.uk" className="hover:text-amber-600 transition-colors">
+                                                info@theuid.uk
+                                            </a>
+                                        </p>
+                                        <p className="flex items-center gap-2">
+                                            <span>📍</span>
+                                            <span>Northampton, UK</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p className="font-bold mb-3" style={{ color: 'var(--primary-amber-dark)' }}>Regulatory</p>
+                                    <div className="space-y-1 text-gray-600">
+                                        <p className="font-semibold text-gray-800">UNITY IN DIVERSITY CIC</p>
+                                        <p>Company: 15515502</p>
+                                        <p>Registered in England & Wales</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p className="font-bold mb-3" style={{ color: 'var(--primary-amber-dark)' }}>Quick Links</p>
+                                    <div className="space-y-2 text-gray-600">
+                                        <p>
+                                            <a href="#form" className="hover:text-amber-600 transition-colors">Request Help</a>
+                                        </p>
+                                        <p>
+                                            <a href="#" className="hover:text-amber-600 transition-colors">Privacy Policy</a>
+                                        </p>
+                                        <p>
+                                            <a href="#" className="hover:text-amber-600 transition-colors">Terms of Service</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Bottom Bar with Branding */}
+                        <div className="border-t border-gray-200 py-6" style={{ background: 'linear-gradient(135deg, #fff7ed 0%, #fde68a 100%)' }}>
+                            <div className="mx-auto max-w-6xl px-4">
+                                <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
+                                    <p className="text-gray-600">
+                                        © 2025 Unity in Diversity CIC. All rights reserved.
+                                    </p>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-gray-500">Powered by</span>
+                                        <a
+                                            href="https://www.gen3block.com"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="gen3block-badge flex items-center gap-2 px-4 py-2 rounded-lg font-semibold"
+                                            style={{
+                                                background: 'linear-gradient(135deg, var(--primary-amber) 0%, var(--sunset-gold) 100%)',
+                                                color: 'white',
+                                                boxShadow: '0 4px 8px rgba(217, 119, 6, 0.2)'
+                                            }}
+                                        >
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="white" opacity="0.9"/>
+                                                <path d="M2 17L12 22L22 17" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                                <path d="M2 12L12 17L22 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                            </svg>
+                                            <span>Gen3block AI</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            );
+        }
+
+        // Render the app
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<ModernIntakePage />);
+    </script>
+</body>
+</html>
