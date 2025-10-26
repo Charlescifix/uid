@@ -466,8 +466,8 @@ export default function ModernIntakePage() {
           </div>
         </div>
         <div className="space-y-4">
-          <div className="w-full aspect-[4/3] bg-gray-100 rounded-2xl border flex items-center justify-center text-gray-400">
-            <Users className="h-16 w-16" />
+          <div className="w-full aspect-[4/3] rounded-2xl border overflow-hidden">
+            <img src="/men.png" alt="Men supporting each other" className="w-full h-full object-cover" />
           </div>
           <Card className="shadow-lg">
             <CardHeader>
@@ -511,19 +511,19 @@ export default function ModernIntakePage() {
   );
 
   const Features = () => (
-    <section id="how" className="bg-white">
+    <section id="how" className="bg-gradient-to-b from-blue-50 to-teal-50">
       <div className="mx-auto max-w-6xl px-4 py-12">
-        <h2 className="text-2xl md:text-3xl font-bold">What we help with</h2>
-        <p className="text-gray-600 mt-2">
+        <h2 className="text-2xl md:text-3xl font-bold text-blue-900">What we help with</h2>
+        <p className="text-teal-700 mt-2">
           From a quick chat to ongoing support — we&apos;ll match you to the right option.
         </p>
         <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {CONCERNS.map((c) => (
-            <Card key={c.key} className="rounded-2xl">
+            <Card key={c.key} className="rounded-2xl bg-white border-teal-200 hover:shadow-lg transition-shadow">
               <CardHeader className="pb-2">
-                <CardTitle className="text-base">{c.label}</CardTitle>
+                <CardTitle className="text-base text-blue-800">{c.label}</CardTitle>
               </CardHeader>
-              <CardContent className="text-sm text-gray-600">{c.description}</CardContent>
+              <CardContent className="text-sm text-teal-700">{c.description}</CardContent>
             </Card>
           ))}
         </div>
@@ -1124,39 +1124,39 @@ export default function ModernIntakePage() {
   );
 
   const FAQ = () => (
-    <section id="faq" className="bg-white">
+    <section id="faq" className="bg-gradient-to-b from-teal-50 to-blue-50">
       <div className="mx-auto max-w-5xl px-4 py-12">
-        <h2 className="text-2xl md:text-3xl font-bold">Common questions</h2>
-        <div className="mt-6 grid md:grid-cols-2 gap-4 text-sm text-gray-700">
-          <Card className="rounded-2xl">
+        <h2 className="text-2xl md:text-3xl font-bold text-blue-900">Common questions</h2>
+        <div className="mt-6 grid md:grid-cols-2 gap-4 text-sm">
+          <Card className="rounded-2xl bg-white border-teal-200 hover:shadow-lg transition-shadow">
             <CardHeader className="pb-2">
-              <CardTitle className="text-base">Is it confidential?</CardTitle>
+              <CardTitle className="text-base text-blue-800">Is it confidential?</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="text-teal-700">
               Yes. We keep your information safe and only share with partners if you opt in or if there&apos;s a serious risk of harm.
             </CardContent>
           </Card>
-          <Card className="rounded-2xl">
+          <Card className="rounded-2xl bg-white border-teal-200 hover:shadow-lg transition-shadow">
             <CardHeader className="pb-2">
-              <CardTitle className="text-base">How fast will you respond?</CardTitle>
+              <CardTitle className="text-base text-blue-800">How fast will you respond?</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="text-teal-700">
               We aim to respond within 2 working days. If urgent, call 999 or your local NHS urgent helpline.
             </CardContent>
           </Card>
-          <Card className="rounded-2xl">
+          <Card className="rounded-2xl bg-white border-teal-200 hover:shadow-lg transition-shadow">
             <CardHeader className="pb-2">
-              <CardTitle className="text-base">Do I need a GP referral?</CardTitle>
+              <CardTitle className="text-base text-blue-800">Do I need a GP referral?</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="text-teal-700">
               No. You can contact us directly. Being registered with a GP helps us signpost effectively.
             </CardContent>
           </Card>
-          <Card className="rounded-2xl">
+          <Card className="rounded-2xl bg-white border-teal-200 hover:shadow-lg transition-shadow">
             <CardHeader className="pb-2">
-              <CardTitle className="text-base">What does it cost?</CardTitle>
+              <CardTitle className="text-base text-blue-800">What does it cost?</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="text-teal-700">
               Core support is free. If we refer you to specialist services, we&apos;ll explain any costs first.
             </CardContent>
           </Card>

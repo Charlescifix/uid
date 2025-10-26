@@ -297,7 +297,7 @@
 
         /* Header Styles */
         header {
-            background: rgba(255, 255, 255, 1) !important;
+            background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%) !important;
             border-bottom: 2px solid #fde68a !important;
             box-shadow: 0 4px 6px -1px rgba(217, 119, 6, 0.05);
         }
@@ -571,6 +571,128 @@
         footer a:not(.gen3block-badge):hover::after {
             width: 100%;
         }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 639px) {
+            /* Button responsive */
+            button {
+                padding: 0.75rem 1rem;
+                font-size: 0.875rem;
+                min-width: 120px;
+                min-height: 48px;
+                letter-spacing: 0.025em;
+            }
+
+            /* Header responsive */
+            header .logo {
+                width: 40px !important;
+                height: 28px !important;
+            }
+
+            header span {
+                font-size: 0.875rem;
+            }
+
+            /* Hero section responsive */
+            .hero-section {
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+
+            .hero-image-container {
+                min-height: 280px !important;
+            }
+
+            /* Section padding responsive */
+            section .px-4 {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            section .py-12 {
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+
+            /* Card padding responsive */
+            .card.p-8 {
+                padding: 1.25rem !important;
+            }
+
+            .card.p-4 {
+                padding: 0.875rem !important;
+            }
+
+            /* Typography responsive */
+            h1 {
+                font-size: 1.875rem !important;
+                line-height: 2.25rem !important;
+            }
+
+            h2 {
+                font-size: 1.5rem !important;
+            }
+
+            .image-overlay-badge {
+                bottom: 1rem;
+                left: 1rem;
+                padding: 0.5rem 0.875rem;
+            }
+
+            .image-overlay-badge p {
+                font-size: 0.75rem;
+            }
+
+            /* Footer responsive */
+            footer .py-12 {
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+
+            footer .footer-logo {
+                width: 36px !important;
+                height: 26px !important;
+            }
+
+            /* Grid gap responsive */
+            .gap-8 {
+                gap: 1.5rem;
+            }
+        }
+
+        /* Tablet responsive */
+        @media (min-width: 640px) and (max-width: 1023px) {
+            .hero-image-container {
+                min-height: 350px !important;
+            }
+
+            button {
+                padding: 0.875rem 1.25rem;
+                font-size: 0.9rem;
+                min-width: 140px;
+                min-height: 52px;
+            }
+        }
+
+        /* Utility classes for responsive spacing */
+        .responsive-container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        @media (min-width: 640px) {
+            .responsive-container {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .responsive-container {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -785,7 +907,7 @@
                 <div className="min-h-screen bg-white">
                     {/* Header */}
                     <header className="sticky top-0 z-40 bg-white border-b">
-                        <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+                        <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between gap-2">
                             <a href="#" className="flex items-center gap-2">
                                 <div className="logo" style={{ width: '50px', height: '36px' }}>
                                     <img src="uid_logo.png" alt="Unity in Diversity Logo" />
@@ -793,7 +915,7 @@
                                 <span className="font-semibold" style={{ color: 'var(--primary-amber-dark)' }}>Unity in Diversity</span>
                             </a>
                             <button className="btn-primary rounded-2xl">
-                                <a href="#form">Request assistance</a>
+                                <a href="#form"><span className="hidden sm:inline">Request assistance</span><span className="sm:hidden">Request</span></a>
                             </button>
                         </div>
                     </header>
@@ -834,17 +956,17 @@
                     </section>
 
                     {/* Features */}
-                    <section className="bg-white">
+                    <section className="features-section">
                         <div className="mx-auto max-w-6xl px-4 py-12">
-                            <h2 className="text-2xl md:text-3xl font-bold">What we help with</h2>
-                            <p className="text-gray-600 mt-2">
+                            <h2 className="text-2xl md:text-3xl font-bold" style={{ color: '#374151' }}>What we help with</h2>
+                            <p className="mt-2" style={{ color: '#6b7280' }}>
                                 From a quick chat to ongoing support — we'll match you to the right option.
                             </p>
                             <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                                 {CONCERNS.map((c) => (
                                     <div key={c.key} className="card rounded-2xl p-4">
-                                        <h3 className="font-bold text-base mb-1">{c.label}</h3>
-                                        <p className="text-sm text-gray-600">{c.description}</p>
+                                        <h3 className="font-bold text-base mb-1" style={{ color: '#374151' }}>{c.label}</h3>
+                                        <p className="text-sm" style={{ color: '#6b7280' }}>{c.description}</p>
                                     </div>
                                 ))}
                             </div>
@@ -852,7 +974,7 @@
                     </section>
 
                     {/* Form */}
-                    <section id="form" className="bg-gray-50">
+                    <section id="form" style={{ background: 'white' }}>
                         <div className="mx-auto max-w-5xl px-4 py-12">
                             <div className="card rounded-2xl shadow-lg p-8">
                                 <h2 className="text-2xl font-bold mb-2">Assistance required</h2>
@@ -1380,7 +1502,7 @@
                     </section>
 
                     {/* Footer */}
-                    <footer className="border-t-2 bg-gradient-to-b from-white to-gray-50" style={{ borderColor: 'var(--primary-amber-light)' }}>
+                    <footer className="border-t-2" style={{ background: 'linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%)', borderColor: 'var(--primary-amber-light)' }}>
                         <div className="mx-auto max-w-6xl px-4 py-12">
                             <div className="grid md:grid-cols-4 gap-8 text-sm">
                                 <div>
