@@ -914,9 +914,14 @@
                                 </div>
                                 <span className="font-semibold" style={{ color: 'var(--primary-amber-dark)' }}>Unity in Diversity</span>
                             </a>
-                            <button className="btn-primary rounded-2xl">
-                                <a href="#form"><span className="hidden sm:inline">Request assistance</span><span className="sm:hidden">Request</span></a>
-                            </button>
+                            <div className="flex gap-3">
+                                <button className="btn-outline rounded-2xl">
+                                    <a href="mailto:partnerships@theuid.uk"><span className="hidden sm:inline">Partner</span><span className="sm:hidden">Partner</span></a>
+                                </button>
+                                <button className="btn-primary rounded-2xl">
+                                    <a href="#form"><span className="hidden sm:inline">Request assistance</span><span className="sm:hidden">Request</span></a>
+                                </button>
+                            </div>
                         </div>
                     </header>
 
@@ -969,6 +974,69 @@
                                         <p className="text-sm" style={{ color: '#6b7280' }}>{c.description}</p>
                                     </div>
                                 ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Partner with Us */}
+                    <section className="form-section">
+                        <div className="mx-auto max-w-6xl px-4 py-12">
+                            <div className="text-center mb-8">
+                                <h2 className="text-2xl md:text-3xl font-bold">Partner with us</h2>
+                                <p className="mt-2 text-gray-600 max-w-2xl mx-auto">
+                                    Join us in making a difference. Together we can create lasting impact for men in our communities.
+                                </p>
+                            </div>
+
+                            <div className="grid md:grid-cols-3 gap-6 mb-8">
+                                {/* Organizations */}
+                                <div className="card rounded-2xl p-6 text-center">
+                                    <div className="text-4xl mb-3">🤝</div>
+                                    <h3 className="font-bold text-lg mb-2">Organizations</h3>
+                                    <p className="text-sm text-gray-600 mb-4">
+                                        Collaborate with us to extend your reach and maximize impact through shared resources and expertise.
+                                    </p>
+                                    <ul className="text-xs text-gray-500 space-y-1 text-left">
+                                        <li>• Referral partnerships</li>
+                                        <li>• Joint service delivery</li>
+                                        <li>• Shared training programs</li>
+                                    </ul>
+                                </div>
+
+                                {/* Funders */}
+                                <div className="card rounded-2xl p-6 text-center">
+                                    <div className="text-4xl mb-3">💼</div>
+                                    <h3 className="font-bold text-lg mb-2">Funders & Grants</h3>
+                                    <p className="text-sm text-gray-600 mb-4">
+                                        Support sustainable community change. Help us scale our evidence-based support services.
+                                    </p>
+                                    <ul className="text-xs text-gray-500 space-y-1 text-left">
+                                        <li>• Transparent impact reporting</li>
+                                        <li>• Data-driven outcomes</li>
+                                        <li>• Strategic collaboration</li>
+                                    </ul>
+                                </div>
+
+                                {/* Volunteers */}
+                                <div className="card rounded-2xl p-6 text-center">
+                                    <div className="text-4xl mb-3">🌟</div>
+                                    <h3 className="font-bold text-lg mb-2">Volunteers</h3>
+                                    <p className="text-sm text-gray-600 mb-4">
+                                        Share your skills and time. Make a direct difference in the lives of men seeking support.
+                                    </p>
+                                    <ul className="text-xs text-gray-500 space-y-1 text-left">
+                                        <li>• Peer support roles</li>
+                                        <li>• Professional mentoring</li>
+                                        <li>• Community outreach</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            {/* CTA Button */}
+                            <div className="text-center mt-8">
+                                <a href="mailto:partnerships@theuid.uk" className="btn-primary rounded-2xl" style={{ minWidth: '250px', fontSize: '1.1rem', padding: '1.25rem 2rem' }}>
+                                    Partner with us
+                                </a>
                             </div>
                         </div>
                     </section>
